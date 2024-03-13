@@ -1,4 +1,3 @@
-
 // I am Muhammad Ahmad student of BS Data Science in SEECS
 // My CMS id is 461348
 // This is the first project that I am uploading on GitHub
@@ -11,120 +10,161 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.*;
 
-// Defining the LibraryManagementSystem class
 public class LibraryManagementSystem {
 
-    // Defining the Book class as a nested class
+    // Defining the Book class 
     public static class Book implements Serializable {
-        // Declaring instance variables for Book
-        private String title, author;
+        private String bookID;
+        private String title;
+        private String author;
+        private String genre;
         private boolean available;
 
         // Book class constructor
-        public Book(String title, String author) {
+        public Book(String title, String author, String genre, boolean available) {
             this.title = title;
             this.author = author;
-            this.available = true;
+            this.genre = genre;
+            this.available = available;
         }
 
-        // Getter method for the title of the book
+        // Getter and Setter methods for the attributes
+        public String getBookID() {
+            return bookID;
+        }
+
+        public void setBookID(String bookID) {
+            this.bookID = bookID;
+        }
+
         public String getTitle() {
             return title;
         }
 
-        // Setter method for the title of the book
         public void setTitle(String title){
-            this.title=title;
+            this.title = title;
         }
 
-        // Getter method for the author of the book
         public String getAuthor() {
             return author;
         }
 
-        // Setter method for the author of the book
         public void setAuthor(String author){
-            this.author=author;
+            this.author = author;
         }
 
-        // Getter method to check if the book is available
+        public String getGenre() {
+            return genre;
+        }
+
+        public void setGenre(String genre){
+            this.genre = genre;
+        }
+
         public boolean isAvailable() {
             return available;
         }
 
-        // Setter method to set the availability of the book
         public void setAvailable(boolean available) {
             this.available = available;
         }
     }
 
-    // Defining the User class as a nested class
+    // Defining the User class 
     public static class User implements Serializable {
-        // Declaring instance variable for User
-        private String username;
+        private int userID;
+        private String name;
+        private String contactInfo;
+        private List<Book> borrowedBooks;
 
         // User class constructor
-        public User(String username) {
-            this.username = username;
+        public User(String name, String contactInfo) {
+            this.name = name;
+            this.contactInfo = contactInfo;
+            this.borrowedBooks = new ArrayList<>();
         }
 
-        // Getter method for the username
-        public String getUsername() {
-            return username;
+        // Getter and Setter methods for the attributes
+        public int getUserID() {
+            return userID;
         }
 
-        // Setter method for the username
-        public void setUsername(String username){
-            this.username=username;
+        public void setUserID(int userID) {
+            this.userID = userID;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getContactInfo() {
+            return contactInfo;
+        }
+
+        public void setContactInfo(String contactInfo) {
+            this.contactInfo = contactInfo;
+        }
+
+        public List<Book> getBorrowedBooks() {
+            return borrowedBooks;
+        }
+
+        public void setBorrowedBooks(List<Book> borrowedBooks) {
+            this.borrowedBooks = borrowedBooks;
         }
     }
 
-    // Defining the Library class as a nested class
+    // Defining the Library class
     public static class Library implements Serializable {
-        // Declaring instance variables for Library
         private List<Book> books;
-        private Map<String, User> users;
+        private List<User> users;
 
         // Library class constructor
         public Library() {
             this.books = new ArrayList<>();
-            this.users = new HashMap<>();
+            this.users = new ArrayList<>();
         }
 
         // Method to add a book to the library
-        public void addBook(String title, String author) {
-            books.add(new Book(title, author));
+        public void addBook(String title, String author, String genre, boolean available) {
+            Book book = new Book(title, author, genre, available);
+            books.add(book);
         }
 
         // Method to add a user to the library
-        public void addUser(String username) {
-            users.put(username, new User(username));
+        public void addUser(String name, String contactInfo) {
+            users.add(new User(name, contactInfo));
         }
 
         // Method to checkout a book from the library
-        public void checkoutBook(String username, String title) {
-            for (Book book : books) {
-                if (book.isAvailable()) {
-                    book.setAvailable(false);
-                    System.out.println("Book '" + title + "' checked out by " + username);
-                    return;
-                }
-            }
-            System.out.println("Book '" + title + "' does not exist.");
+        public void checkoutBook(int userID, String title) {
+    for (Book book : books) {
+        if (book.isAvailable()) {
+            book.setAvailable(false);
+            System.out.println("Book '" + title + "' checked out by user ID " + userID);
+            return;
         }
+    }
+    System.out.println("Book '" + title + "' does not exist.");
+}
+
 
         // Method to return a book to the library
-        public void returnBook(String username,String title) {
+        public void returnBook(int userID, String title) {
             for (Book book : books) {
                 if (!book.isAvailable()) {
                     book.setAvailable(true);
-                    System.out.println("Book '" + title + "' returned by " + username );
+                    System.out.println("Book '" + title + "' returned by user ID " + userID);
                     return;
                 }
             }
-            System.out.println("Book '" + title + "' does not exist.");
+            System.out.println("Book '" + title + "' does not exist or is already available.");
         }
-
+      
         // Method to search for books by title
         public List<Book> searchByTitle(String title) {
             List<Book> titleBooks = new ArrayList<>();
@@ -135,14 +175,14 @@ public class LibraryManagementSystem {
             }
             return titleBooks;
         }
+        
 
         // Method to search for books by author
         public List<Book> searchByAuthor(String author) {
             List<Book> authorBooks = new ArrayList<>();
             for (Book book : books) {
-                if (book.getAuthor() !="") {
+                if (book.getAuthor()!="") {
                     authorBooks.add(book);
-                    System.out.println("The book for the"+ author +"is:");
                 }
             }
             return authorBooks;
@@ -152,9 +192,9 @@ public class LibraryManagementSystem {
         public void saveLibrary(String file) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
                 out.writeObject(this);
-                System.out.println("Library state saved successfully.");
+                System.out.println("Library saved successfully.");
             } catch (IOException e) {
-                System.out.println("Error saving library state: " + e.getMessage());
+                System.out.println("Error saving library: " + e.getMessage());
             }
         }
 
@@ -164,8 +204,7 @@ public class LibraryManagementSystem {
                 Library library = (Library) in.readObject();
                 System.out.println("Library viewed successfully.");
                 return library;
-            } 
-             catch (IOException | ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Error viewing library");
             }
             return null;
@@ -173,37 +212,54 @@ public class LibraryManagementSystem {
     }
 
     // Main method
-    public static void main(String[] args) {
-        try {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Welcome to MUHAMMAD AHMAD'S Library Management System");
-            Library library = new Library();
+public static void main(String[] args) {
+    try {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome to MUHAMMAD AHMAD'S Library Management System");
+        Library library = new Library();
 
-            // Prompting user to enter book details
-            System.out.println("Enter the details of the book:");
-            System.out.println("Title: ");
-            String title = sc.nextLine();
-            System.out.println("Enter the user:");
-            String username= sc.nextLine();
-            System.out.println("Author: ");
-            String author = sc.nextLine();
+        // Prompting user to enter book details
+        System.out.println("Enter the details of the book:");
+        System.out.println("Title: ");
+        String title = sc.nextLine();
+        System.out.println("Author: ");
+        String author = sc.nextLine();
+        System.out.println("Genre: ");
+        String genre = sc.nextLine();
+        System.out.println("Availability (true/false): ");
+        boolean available = sc.nextBoolean();
+       
+        // Adding book and user to the library
+        library.addBook(title, author, genre, available);
 
-            // Adding book and user to the library
-            library.addBook(title, author);
-            library.addUser(username);
+        // Prompting user to enter user details
+        System.out.println("Enter the details of the user:");
+        System.out.println("Name: ");
+        String name = sc.next();
+        System.out.println("User id:");
+        int userID = sc.nextInt();
+        System.out.println("Contact Information: ");
+        String contactInfo = sc.next();
 
-            // Checking out a book and returning it
-            library.checkoutBook(username,title);
-            library.returnBook(username,title);
+        // Adding user to the library
+        library.addUser(name, contactInfo);
 
-            // Saving and viewing library state
-            library.saveLibrary("library.ser");
+        // Checking out a book and returning it
+        System.out.println("Enter the title of the book to be checked out:");
+        String checkoutTitle = sc.nextLine();
+        library.checkoutBook(userID, checkoutTitle);
 
-            library.viewLibrary("library.ser");
-        } 
-        
-        catch (Exception e) {
-            System.out.println("Error!!!");
-        }
+        System.out.println("Enter the title of the book to be returned:");
+        String Title = sc.nextLine();
+        library.returnBook(userID, Title);
+
+        // Saving and viewing library state
+        library.saveLibrary("library.ser");
+        library.viewLibrary("library.ser");
+        sc.close();
+
+    } catch (Exception e) {
+        System.out.println("Error!!! You entered something incorrect.");
     }
+}
 }
