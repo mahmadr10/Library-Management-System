@@ -1,12 +1,11 @@
+
 // I am Muhammad Ahmad student of BS Data Science in SEECS
 // My CMS id is 461348
 // This is the first project that I am uploading on GitHub
+
 // My file is LibraryManagementSystem
 
-// For the management system, I am importing these necessary libraries
-
-
-
+// I am importing following libraries for this management system
 
 import java.util.Scanner;
 import java.io.*;
@@ -115,11 +114,11 @@ public class LibraryManagementSystem {
         }
 
         // Method to return a book to the library
-        public void returnBook(String title) {
+        public void returnBook(String username,String title) {
             for (Book book : books) {
                 if (!book.isAvailable()) {
                     book.setAvailable(true);
-                    System.out.println("Book '" + title + "' returned.");
+                    System.out.println("Book '" + title + "' returned by " + username );
                     return;
                 }
             }
@@ -143,6 +142,7 @@ public class LibraryManagementSystem {
             for (Book book : books) {
                 if (book.getAuthor() !="") {
                     authorBooks.add(book);
+                    System.out.println("The book for the"+ author +"is:");
                 }
             }
             return authorBooks;
@@ -193,8 +193,8 @@ public class LibraryManagementSystem {
             library.addUser(username);
 
             // Checking out a book and returning it
-            library.checkoutBook("Muhammad Ahmad", "Physics");
-            library.returnBook("Physics");
+            library.checkoutBook(username,title);
+            library.returnBook(username,title);
 
             // Saving and viewing library state
             library.saveLibrary("library.ser");
