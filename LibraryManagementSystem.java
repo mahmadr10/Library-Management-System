@@ -1,4 +1,13 @@
-// Importing necessary libraries
+// I am Muhammad Ahmad student of BS Data Science in SEECS
+// My CMS id is 461348
+// This is the first project that I am uploading on GitHub
+// My file is LibraryManagementSystem
+
+// For the management system, I am importing these necessary libraries
+
+
+
+
 import java.util.Scanner;
 import java.io.*;
 import java.util.*;
@@ -165,27 +174,36 @@ public class LibraryManagementSystem {
 
     // Main method
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Welcome to MUHAMMAD AHMAD'S Library Management System");
-        Library library = new Library();
+        try {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Welcome to MUHAMMAD AHMAD'S Library Management System");
+            Library library = new Library();
 
-        // Prompting user to enter book details
-        System.out.println("Enter the details of the book:");
-        System.out.println("Title: ");
-        String title = sc.nextLine();
-        System.out.println("Author: ");
-        String author = sc.nextLine();
+            // Prompting user to enter book details
+            System.out.println("Enter the details of the book:");
+            System.out.println("Title: ");
+            String title = sc.nextLine();
+            System.out.println("Enter the user:");
+            String username= sc.nextLine();
+            System.out.println("Author: ");
+            String author = sc.nextLine();
 
-        // Adding book and user to the library
-        library.addBook(title, author);
-        library.addUser("Muhammad Ahmad");
+            // Adding book and user to the library
+            library.addBook(title, author);
+            library.addUser(username);
 
-        // Checking out a book and returning it
-        library.checkoutBook("Muhammad Ahmad", "Physics");
-        library.returnBook("Physics");
+            // Checking out a book and returning it
+            library.checkoutBook("Muhammad Ahmad", "Physics");
+            library.returnBook("Physics");
 
-        // Saving and viewing library state
-        library.saveLibrary("library.ser");
-        library.viewLibrary("library.ser");
+            // Saving and viewing library state
+            library.saveLibrary("library.ser");
+
+            library.viewLibrary("library.ser");
+        } 
+        
+        catch (Exception e) {
+            System.out.println("Error!!!");
+        }
     }
 }
